@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculadora</title>
+    <link rel="stylesheet" href="/calculadora/calculadora.css" />
+  </head>
+  <body>
+    <div class="calculator">
+      <div class="display" id="display">0</div>
+
+      <div class="buttons">
+        <button class="btn btn-clear" id="clear" onclick="limpar()">C</button>
+        <button class="btn operator" data-operator="/">÷</button>
+        <button class="btn operator" data-operator="*">×</button>
+        <button class="btn operator" data-operator="-">−</button>
+        <button class="btn operator" data-operator="+">+</button>
+
+        <button class="btn number" data-number="7" id="numero">7</button>
+        <button class="btn number" data-number="8" id="numero">8</button>
+        <button class="btn number" data-number="9" id="numero">9</button>
+
+        <button class="btn number" data-number="4" id="numero">4</button>
+        <button class="btn number" data-number="5" id="numero">5</button>
+        <button class="btn number" data-number="6" id="numero">6</button>
+
+        <button class="btn number" data-number="1" id="numero">1</button>
+        <button class="btn number" data-number="2" id="numero">2</button>
+        <button class="btn number" data-number="3" id="numero">3</button>
+
+        <button class="btn number zero" data-number="0">0</button>
+        <button class="btn number" data-number=".">.</button>
+        <button class="btn equals" id="equals" onclick="resultado()">=</button>
+      </div>
+    </div>
+    <script>
+      // Seleciona a div que contém todos os botões
+      var botoes = document.querySelector("div.buttons");
+      // Pega o display da calculadora
+      var disp = document.getElementById("display");
+
+      // Escuta qualquer clique dentro da div
+      botoes.addEventListener("click", mostrar);
+
+      function mostrar(evento) {
+        // Pega o display da calculadora
+
+        // evento.target é o botão que foi clicado
+        var botaoClicado = evento.target;
+
+        if (botaoClicado.id === "equals") {
+          resultado();
+          return;
+        }
+        if (botaoClicado.id === "clear") {
+          limpar();
+          return;
+        }
+
+        if (disp.innerText === "0") {
+          disp.innerText = botaoClicado.innerText;
+        }
+
+        // Verifica se o botão é um número
+        else if (botaoClicado.classList.contains("number")) {
+          // Adiciona o número clicado no display
+          disp.innerHTML += botaoClicado.innerText;
+        }
+
+        // Verifica se o botão é um operador
+        else if (botaoClicado.classList.contains("operator")) {
+          // Adiciona o operador clicado no display
+          disp.innerHTML += botaoClicado.innerText;
+        }
+      }
+
+      function resultado() {
+        if (disp.innerText.includes("+")) {
+          //verifica c tem a str "+"
+          var operacao = disp.innerText.split("+"); //split quebra e cria uma lista sem o elemento passado como parametro
+          var soma = 0;
+          for (e of operacao) {
+            soma = soma + Number.parseFloat(e);
+          }
+          disp.innerText = soma;
+        } else if (disp.innerText.includes("×")) {
+          var multiplicacao = disp.innerText.split("×");
+          var multi = 1;
+          for (m of multiplicacao) {
+            multi = multi * Number.parseFloat(m);
+          }
+          disp.innerText = multi;
+        } else if (disp.innerText.includes("−")) {
+          var subtracao = disp.innerText.split("−");
+          var sub = Number.parseFloat(subtracao[0]);
+          var rest = subtracao.slice(1);
+          for (s of rest) {
+            sub = sub - Number.parseFloat(s);
+          }
+          disp.innerText = sub;
+        } else if (disp.innerText.includes("÷")) {
+          var divisao = disp.innerText.split("÷");
+          var divi = Number.parseFloat(divisao[0]);
+          var resDiv = divisao.slice(1); //meio q cria uma nova lista apartir do indici indicado
+
+          for (d of resDiv) {
+            divi = divi / Number.parseFloat(d);
+          }
+          disp.innerText = divi;
+        }
+      }
+      function limpar() {
+        disp.innerText = "0";
+      }
+    </script>
+  </body>
+</html>
